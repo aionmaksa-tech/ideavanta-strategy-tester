@@ -13,12 +13,12 @@ Developed as an open-source companion to the [IdeaVanta VantaBox Project](https:
 
 ## 💡 Overview
 
-Most retail Forex trading bots fail because they run as single-pair Martingale or unbounded grid systems that eventually experience a catastrophic margin call. 
+**VantaBox** operates within a selected time window by observing market data and evaluating it against preset rules to decide whether to trade the current session or skip it. When conditions qualify, it places and manages the configured orders and protection, finishing according to the session schedule.
 
-This simulator allows algorithmic traders and quants to:
-1. **Explore 34 real-tick backtests** across 5 currency pairs (`AUDJPY`, `EURJPY`, `EURUSD`, `GBPUSD`, `USDJPY`).
-2. **Simulate multi-pair portfolio baskets** in real time, observing how combining uncorrelated setups reduces overall portfolio drawdown while stabilizing equity curve slope.
-3. **Compare fixed dollar risk ($100) vs compounding risk (1%)** regimes over 13 years of turbulent market conditions (including the 2015 SNB shock, 2016 Brexit, 2020 COVID volatility, and 2024 Yen carry unwind).
+This standalone portfolio simulator allows algorithmic traders and researchers to:
+1. **Explore 34 historical MT5 test profiles** across 5 currency pairs (`AUDJPY`, `EURJPY`, `EURUSD`, `GBPUSD`, `USDJPY`).
+2. **Simulate multi-pair portfolio baskets** in real time, observing how combining multiple setups affects overall portfolio drawdown and return-to-drawdown ratios.
+3. **Compare fixed dollar risk ($100) vs percentage risk (1%)** models across 13 years of historical data (2013–2026).
 
 ---
 
@@ -39,12 +39,12 @@ python strategy_tester.py
 
 ---
 
-## 📊 Dataset & Backtest Methodology
+## 📊 Dataset & Backtest Summary
 
-* **Test Horizon:** 2013-01-03 through 2026-07-14.
-* **Execution Engine:** MetaTrader 5 Strategy Tester with Real Ticks modeling.
-* **Risk Control:** Every setup strictly enforces a mathematical Stop-Loss. Zero Martingale. Zero unbounded grid doubling.
-* **Profiles:** 17 distinct strategy setups, each tested under fixed \$100 risk and 1% risk per trade.
+* **Test Horizon:** 2013-01-03 through 2026-07-14 (historical simulations; past performance does not guarantee future live results).
+* **Execution Engine:** MetaTrader 5 Strategy Tester (with real-tick coverage where available).
+* **Confidentiality Note:** This repository contains only aggregated summary metrics from the public [IdeaVanta Historical Tests Library](https://ideavanta.com/historical-tests/). Proprietary strategy rules, filters, level calculations, and `.set` parameters are never disclosed.
+* **Profiles:** 17 strategy setups, each evaluated under fixed \$100 risk and 1% risk per trade.
 
 ---
 
