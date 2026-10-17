@@ -1,7 +1,15 @@
-__pycache__/
-*.py[cod]
-*$py.class
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
+# =============================================================================
+#  STRICT ALLOWLIST FOR PUBLIC GITHUB REPOSITORY (ideavanta-strategy-tester)
+# =============================================================================
+# Ignore EVERYTHING by default so internal Bob files, .env, or support docs
+# can NEVER be accidentally staged or pushed.
+*
+
+# Explicitly allow ONLY public Strategy Tester files:
+!.gitignore
+!README.md
+!app.py
+!strategy_tester.py
+!run_dashboard.bat
+!data/
+!data/backtest_catalog.json
