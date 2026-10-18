@@ -151,12 +151,15 @@ HTML_PAGE = """<!DOCTYPE html>
         No setups selected.
       </div>
 
-      <a href="https://discord.gg/6q2gsDvae" target="_blank" class="cta-button cta-discord">
-        Request Vantage Copy Trading
+      <a href="https://ideavanta.com" target="_blank" class="cta-button">
+        Explore Research & VantaBox EA on IdeaVanta.com
       </a>
-      <a href="https://ideavanta.com/license/account.php" target="_blank" class="cta-button" style="background:#21262d; border: 1px solid var(--border);">
-        Get Free VantaBox MT5 Key
+      <a href="https://discord.gg/6q2gsDvae" target="_blank" class="cta-button cta-discord" style="margin-top: 10px;">
+        Join IdeaVanta Research Community (Discord)
       </a>
+      <p style="font-size: 11px; color: var(--text-muted); margin-top: 14px; line-height: 1.4;">
+        ⚖️ <strong>Disclaimer:</strong> Provided strictly for educational and quantitative software research. Not financial or investment advice. Historical MT5 simulations do not guarantee future results.
+      </p>
     </div>
   </div>
 

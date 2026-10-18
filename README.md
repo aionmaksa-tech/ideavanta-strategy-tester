@@ -48,12 +48,20 @@ python strategy_tester.py
 
 ---
 
-## 🤝 Community & Automated Execution
+## 🔗 About IdeaVanta & VantaBox Software
 
-* **Vantage Copy Trading:** Want to copy this conservative multi-pair portfolio without running MT5 or a VPS? Join our [Discord Community](https://discord.gg/6q2gsDvae) to get 1-click mobile copy trading access on Vantage Markets.
-* **Free VantaBox MT5 EA:** Free software license access is available during public testing at [ideavanta.com](https://ideavanta.com).
+* **IdeaVanta (`ideavanta.com`):** An independent quantitative research and software platform publishing historical MetaTrader 5 dataset analyses and portfolio simulation tools.
+* **VantaBox MT5 Expert Advisor:** A software tool for MetaTrader 5 offered via [ideavanta.com](https://ideavanta.com) for technical and educational evaluation.
+* **Community Discussion:** Join the [IdeaVanta Discord](https://discord.gg/6q2gsDvae) to discuss quantitative testing, portfolio diversification, and MT5 execution mechanics.
+
+---
+
+## ⚖️ Legal & Regulatory Disclaimer
+
+* **Software & Research Only (Not Financial Advice):** This repository, dashboard, and all associated materials from IdeaVanta are provided strictly for **educational, informational, and software research purposes**. Nothing herein constitutes financial, investment, legal, or tax advice, nor a solicitation to buy, sell, or copy any financial instrument.
+* **Simulated Performance Limitation:** Historical backtest metrics (2013–2026) represent hypothetical computer simulations in MetaTrader 5. Past or simulated performance is not indicative of, and does not guarantee, future live results. Foreign exchange (Forex) and CFD trading carry a high level of risk and may not be suitable for all individuals.
 
 ---
 
 ## 📄 License
-MIT License. Free for personal and research use.
+MIT License. Free for personal, educational, and research use.
