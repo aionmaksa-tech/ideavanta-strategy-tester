@@ -3,11 +3,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/6q2gsDvae)
-[![Research: Live Data](https://img.shields.io/badge/Data-13--Year%20Tick%20Data-orange)](https://ideavanta.com)
+[![Research: 11.88B Real Ticks](https://img.shields.io/badge/Data-11.88B%20Real%20Ticks-orange)](https://ideavanta.com)
 
-A standalone quantitative research lab and portfolio simulator based on **99,103 historical trades** across **34 verified MetaTrader 5 Expert Advisor profiles** (2013–2026).
+A standalone quantitative research lab and portfolio simulator based on **11,876,579,606 modeled real ticks** and **99,103 simulated trades** across **34 verified MetaTrader 5 Expert Advisor profiles** (2013–2026).
 
-Developed as an open-source companion to the [IdeaVanta VantaBox Project](https://ideavanta.com).
+Developed as an open-source research companion to [IdeaVanta.com](https://ideavanta.com).
 
 ---
 
@@ -16,9 +16,22 @@ Developed as an open-source companion to the [IdeaVanta VantaBox Project](https:
 **VantaBox** operates within a selected time window by observing market data and evaluating it against preset rules to decide whether to trade the current session or skip it. When conditions qualify, it places and manages the configured orders and protection, finishing according to the session schedule.
 
 This standalone portfolio simulator allows algorithmic traders and researchers to:
-1. **Explore 34 historical MT5 test profiles** across 5 currency pairs (`AUDJPY`, `EURJPY`, `EURUSD`, `GBPUSD`, `USDJPY`).
-2. **Simulate multi-pair portfolio baskets** in real time, observing how combining multiple setups affects overall portfolio drawdown and return-to-drawdown ratios.
-3. **Compare fixed dollar risk ($100) vs percentage risk (1%)** models across 13 years of historical data (2013–2026).
+1. **Explore 34 historical MT5 test profiles** across 5 currency pairs (`AUDJPY`, `EURJPY`, `EURUSD`, `GBPUSD`, `USDJPY`) modeled on **99% Real Ticks**.
+2. **Evaluate institutional quantitative metrics** including **Sharpe Ratio** (up to `2.96`), **Linear Regression Equity Smoothness** (`LR Correlation` up to `0.9927`), **Reward-to-Risk Payoff Ratio** (`Avg Win / Avg Loss` up to `4.55x`), and **Recovery Factor**.
+3. **Simulate multi-pair portfolio baskets** in real time, comparing **Fixed \$100 Risk** vs **1% Compounding Risk** across 13.5 years of data (2013–2026).
+
+---
+
+## 📊 Sample Institutional Highlights (2013–2026 · 99% Real Ticks)
+
+| Pair | Preset | Profit Factor | Sharpe Ratio | LR Smoothness | Payoff (R:R) | Win Rate | Max DD | Simulated Net |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **USDJPY** | `Setup 5.2 · $100` | **1.32** | **2.13** | **0.9927** | **2.02x** | 39.6% | \$4,313 | +\$94,427 |
+| **USDJPY** | `Setup 1 · $100` | **1.29** | **2.89** | **0.9856** | **1.72x** | 42.9% | \$3,907 | +\$43,721 |
+| **GBPUSD** | `Setup 1 · $100` | **1.16** | **2.96** | **0.9387** | **1.22x** | 48.7% | \$2,690 | +\$25,383 |
+| **GBPUSD** | `Setup 2 · $100` | **1.15** | **2.39** | **0.9685** | **1.24x** | 48.1% | \$4,193 | +\$29,482 |
+| **USDJPY** | `Setup 6 · $100` | **1.25** | **1.63** | **0.9777** | **4.55x** | 21.6% | \$5,530 | +\$76,419 |
+| **EURUSD** | `Setup 1 · $100` | **1.11** | **1.90** | **0.9548** | **1.47x** | 43.1% | \$2,202 | +\$14,476 |
 
 ---
 
@@ -36,15 +49,6 @@ Open your browser to: **`http://127.0.0.1:8055`**
 ```bash
 python strategy_tester.py
 ```
-
----
-
-## 📊 Dataset & Backtest Summary
-
-* **Test Horizon:** 2013-01-03 through 2026-07-14 (historical simulations; past performance does not guarantee future live results).
-* **Execution Engine:** MetaTrader 5 Strategy Tester (with real-tick coverage where available).
-* **Confidentiality Note:** This repository contains only aggregated summary metrics from the public [IdeaVanta Historical Tests Library](https://ideavanta.com/historical-tests/). Proprietary strategy rules, filters, level calculations, and `.set` parameters are never disclosed.
-* **Profiles:** 17 strategy setups, each evaluated under fixed \$100 risk and 1% risk per trade.
 
 ---
 

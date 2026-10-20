@@ -6,7 +6,7 @@ import os
 import json
 import webbrowser
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse
 from strategy_tester import StrategyTester
 
 PORT = 8055
@@ -29,50 +29,53 @@ HTML_PAGE = """<!DOCTYPE html>
       --accent: #58a6ff;
       --green: #2ea043;
       --red: #f85149;
+      --gold: #d29922;
       --text: #c9d1d9;
       --text-muted: #8b949e;
       --font-mono: 'JetBrains Mono', monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 24px; line-height: 1.5; }
-    header { max-width: 1200px; margin: 0 auto 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    header { max-width: 1280px; margin: 0 auto 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
     .brand { font-size: 20px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 10px; }
     .brand span { color: var(--accent); }
     .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 16px; font-size: 14px; font-weight: 500; }
     .nav-links a:hover { color: #fff; }
     .nav-discord { background: #5865F2; color: #fff !important; padding: 6px 14px; border-radius: 6px; }
     
-    .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+    .container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 370px; gap: 24px; }
     .panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
     h2 { font-size: 18px; margin-bottom: 14px; color: #fff; display: flex; align-items: center; justify-content: space-between; }
     
     .filters { display: flex; gap: 12px; margin-bottom: 16px; }
     select { background: #21262d; border: 1px solid var(--border); color: #fff; padding: 8px 12px; border-radius: 6px; font-family: inherit; font-size: 14px; }
     
-    .table-container { overflow-x: auto; max-height: 520px; }
+    .table-container { overflow-x: auto; max-height: 560px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
-    th { position: sticky; top: 0; background: #21262d; padding: 10px; border-bottom: 2px solid var(--border); font-weight: 600; color: #fff; }
-    td { padding: 10px; border-bottom: 1px solid var(--border); }
+    th { position: sticky; top: 0; background: #21262d; padding: 10px 8px; border-bottom: 2px solid var(--border); font-weight: 600; color: #fff; white-space: nowrap; }
+    td { padding: 9px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
     tr:hover { background: rgba(88, 166, 255, 0.05); }
     .mono { font-family: var(--font-mono); }
     .positive { color: var(--green); font-weight: 600; }
+    .accent { color: var(--accent); font-weight: 600; }
+    .gold { color: var(--gold); font-weight: 600; }
     
-    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .metric-card { background: #21262d; padding: 14px; border-radius: 6px; border: 1px solid var(--border); }
-    .metric-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
-    .metric-val { font-size: 20px; font-weight: 700; color: #fff; font-family: var(--font-mono); }
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .metric-card { background: #21262d; padding: 12px; border-radius: 6px; border: 1px solid var(--border); }
+    .metric-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .metric-val { font-size: 19px; font-weight: 700; color: #fff; font-family: var(--font-mono); }
     
-    .cta-button { display: block; width: 100%; text-align: center; background: var(--green); color: #fff; padding: 12px; border-radius: 6px; font-weight: 700; text-decoration: none; margin-top: 16px; border: none; cursor: pointer; }
+    .cta-button { display: block; width: 100%; text-align: center; background: var(--green); color: #fff; padding: 12px; border-radius: 6px; font-weight: 700; text-decoration: none; margin-top: 12px; border: none; cursor: pointer; }
     .cta-button:hover { opacity: 0.9; }
     .cta-discord { background: #5865F2; }
-    .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #21262d; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #21262d; color: var(--accent); }
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">IdeaVanta <span>· Quant Strategy Tester</span></div>
+    <div class="brand">IdeaVanta <span>· Quant Strategy Tester (11.88B Real Ticks)</span></div>
     <div class="nav-links">
-      <a href="https://ideavanta.com" target="_blank">Live Website</a>
+      <a href="https://ideavanta.com" target="_blank">Research Library</a>
       <a href="https://discord.gg/6q2gsDvae" class="nav-discord" target="_blank">Join Discord</a>
     </div>
   </header>
@@ -80,7 +83,7 @@ HTML_PAGE = """<!DOCTYPE html>
   <div class="container">
     <div class="panel">
       <h2>
-        Historical MT5 Strategy Library (2013–2026)
+        Historical MT5 Strategy Library (2013–2026 · 99% Real Ticks)
         <span class="badge" id="totalCount">34 Profiles</span>
       </h2>
       <div class="filters">
@@ -103,14 +106,17 @@ HTML_PAGE = """<!DOCTYPE html>
         <table>
           <thead>
             <tr>
-              <th width="40"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
+              <th width="34"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
               <th>Pair</th>
               <th>Setup</th>
               <th>Profit Factor</th>
+              <th>Sharpe</th>
+              <th>LR Smoothness</th>
+              <th>Payoff (R:R)</th>
               <th>Win Rate</th>
               <th>Trades</th>
-              <th>Max Drawdown</th>
-              <th>Reported Net</th>
+              <th>Max DD</th>
+              <th>Net Profit</th>
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
@@ -120,18 +126,30 @@ HTML_PAGE = """<!DOCTYPE html>
 
     <div class="panel">
       <h2>Portfolio Basket Lab</h2>
-      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-        Select strategies on the left to simulate multi-pair portfolio diversification and risk reduction.
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+        Select setups on the left to evaluate combined multi-pair portfolio metrics across 13.5 years of MT5 real-tick data.
       </p>
 
       <div class="metric-grid">
         <div class="metric-card" style="grid-column: span 2; background: rgba(46, 160, 67, 0.1); border-color: rgba(46, 160, 67, 0.4);">
           <div class="metric-label" style="color: var(--green); font-weight: 600;">Total Historical Net Profit</div>
-          <div class="metric-val" id="labNet" style="color: var(--green); font-size: 26px;">+$0</div>
+          <div class="metric-val" id="labNet" style="color: var(--green); font-size: 25px;">+$0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Composite Sharpe</div>
+          <div class="metric-val accent" id="labSharpe">0.00</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">LR Curve Smoothness</div>
+          <div class="metric-val gold" id="labLr">0.000</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">Composite Profit Factor</div>
           <div class="metric-val" id="labPf">0.00</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Payoff Ratio (R:R)</div>
+          <div class="metric-val" id="labRr">0.0x</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">Diversified Max DD</div>
@@ -139,25 +157,21 @@ HTML_PAGE = """<!DOCTYPE html>
         </div>
         <div class="metric-card">
           <div class="metric-label">Return / DD (Recovery)</div>
-          <div class="metric-val" id="labRecovery" style="color: var(--accent);">0.0x</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Trades (Win Rate)</div>
-          <div class="metric-val" id="labTrades" style="font-size: 15px;">0 (0.0%)</div>
+          <div class="metric-val accent" id="labRecovery">0.0x</div>
         </div>
       </div>
 
-      <div id="basketSummary" style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+      <div id="basketSummary" style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
         No setups selected.
       </div>
 
       <a href="https://ideavanta.com" target="_blank" class="cta-button">
         Explore Research & VantaBox EA on IdeaVanta.com
       </a>
-      <a href="https://discord.gg/6q2gsDvae" target="_blank" class="cta-button cta-discord" style="margin-top: 10px;">
+      <a href="https://discord.gg/6q2gsDvae" target="_blank" class="cta-button cta-discord">
         Join IdeaVanta Research Community (Discord)
       </a>
-      <p style="font-size: 11px; color: var(--text-muted); margin-top: 14px; line-height: 1.4;">
+      <p style="font-size: 11px; color: var(--text-muted); margin-top: 12px; line-height: 1.4;">
         ⚖️ <strong>Disclaimer:</strong> Provided strictly for educational and quantitative software research. Not financial or investment advice. Historical MT5 simulations do not guarantee future results.
       </p>
     </div>
@@ -165,7 +179,7 @@ HTML_PAGE = """<!DOCTYPE html>
 
   <script>
     let rawProfiles = [];
-    let selectedIndices = new Set([10, 14, 26]); // Default recommended basket
+    let selectedIndices = new Set([10, 14, 26]);
 
     async function loadData() {
       const res = await fetch('/api/profiles');
@@ -188,11 +202,17 @@ HTML_PAGE = """<!DOCTYPE html>
 
         const tr = document.createElement('tr');
         const checked = selectedIndices.has(idx) ? 'checked' : '';
+        const sharpe = p.sharpe_ratio ? p.sharpe_ratio.toFixed(2) : 'N/A';
+        const lr = p.lr_correlation ? p.lr_correlation.toFixed(4) : 'N/A';
+        const rr = p.payoff_ratio ? p.payoff_ratio.toFixed(2) + 'x' : 'N/A';
         tr.innerHTML = `
           <td><input type="checkbox" ${checked} onchange="toggleSelect(${idx})"></td>
           <td><strong>${p.pair}</strong></td>
           <td>${p.setup}</td>
           <td class="mono positive">${p.profit_factor.toFixed(2)}</td>
+          <td class="mono accent">${sharpe}</td>
+          <td class="mono gold">${lr}</td>
+          <td class="mono">${rr}</td>
           <td class="mono">${p.win_rate}</td>
           <td class="mono">${p.trades.toLocaleString()}</td>
           <td class="mono" style="color:var(--red);">${p.max_dd}</td>
@@ -225,9 +245,11 @@ HTML_PAGE = """<!DOCTYPE html>
       const indices = Array.from(selectedIndices);
       if (indices.length === 0) {
         document.getElementById('labNet').innerText = '+$0';
+        document.getElementById('labSharpe').innerText = '0.00';
+        document.getElementById('labLr').innerText = '0.000';
         document.getElementById('labPf').innerText = '0.00';
+        document.getElementById('labRr').innerText = '0.0x';
         document.getElementById('labRecovery').innerText = '0.0x';
-        document.getElementById('labTrades').innerText = '0 (0.0%)';
         document.getElementById('labDd').innerText = '$0';
         document.getElementById('basketSummary').innerText = 'No setups selected.';
         return;
@@ -241,13 +263,16 @@ HTML_PAGE = """<!DOCTYPE html>
       const data = await res.json();
 
       document.getElementById('labNet').innerText = data.total_reported_net;
+      document.getElementById('labSharpe').innerText = data.composite_sharpe_ratio;
+      document.getElementById('labLr').innerText = data.composite_lr_correlation;
       document.getElementById('labPf').innerText = data.composite_profit_factor;
+      document.getElementById('labRr').innerText = data.composite_payoff_ratio;
       document.getElementById('labRecovery').innerText = data.recovery_factor + 'x';
-      document.getElementById('labTrades').innerText = `${data.total_historical_trades.toLocaleString()} (${data.composite_win_rate})`;
       document.getElementById('labDd').innerText = '$' + Math.round(data.estimated_max_dd).toLocaleString();
+      const ticksM = (data.total_ticks_modeled / 1e6).toFixed(0);
       document.getElementById('basketSummary').innerHTML = `
-        Active Basket: <strong>${data.num_setups} setups</strong> across <strong>${data.unique_pairs.join(', ')}</strong>.<br>
-        Diversification risk multiplier: <code>${data.diversification_factor}x</code>
+        Active Basket: <strong>${data.num_setups} setups</strong> across <strong>${data.unique_pairs.join(', ')}</strong><br>
+        Trades: <code>${data.total_historical_trades.toLocaleString()} (${data.composite_win_rate} WR)</code> · Real Ticks: <code>${ticksM}M+</code>
       `;
     }
 
